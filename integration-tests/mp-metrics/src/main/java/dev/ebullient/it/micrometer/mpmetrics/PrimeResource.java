@@ -17,6 +17,12 @@ public class PrimeResource {
 
     private LongAccumulator highestPrimeSoFar = new LongAccumulator(Long::max, 2);
 
+    CountedResource countedResource;
+
+    PrimeResource(CountedResource countedResource) {
+        this.countedResource = countedResource;
+    }
+
     @GET
     @Path("/{number}")
     @Produces("text/plain")
@@ -54,6 +60,7 @@ public class PrimeResource {
     }
 
     @Gauge(name = "highestPrimeNumberSoFar", unit = MetricUnits.NONE, description = "Highest prime number so far.")
+    @Counted(description = "Number of times gauge has been queried")
     public Long highestPrimeNumberSoFar() {
         return highestPrimeSoFar.get();
     }

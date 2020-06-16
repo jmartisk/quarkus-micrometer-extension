@@ -10,11 +10,9 @@ import javax.enterprise.inject.spi.DeploymentException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.eclipse.microprofile.metrics.annotation.Gauge;
 import org.jboss.jandex.AnnotationInstance;
 import org.jboss.jandex.AnnotationTarget;
 import org.jboss.jandex.ClassInfo;
-import org.jboss.jandex.DotName;
 import org.jboss.jandex.IndexView;
 import org.jboss.jandex.MethodInfo;
 import org.jboss.logging.Logger;
@@ -34,8 +32,6 @@ import io.quarkus.gizmo.ResultHandle;
  */
 public class GaugeAnnotationHandler {
     private static final Logger log = Logger.getLogger(GaugeAnnotationHandler.class);
-
-    static final DotName GAUGE_ANNOTATION = DotName.createSimple(Gauge.class.getName());
 
     /**
      * Given this Widget class:
@@ -87,7 +83,7 @@ public class GaugeAnnotationHandler {
 
         // @Gauge applies to methods
         // It creates a callback the method or field on single object instance
-        for (AnnotationInstance annotation : index.getAnnotations(GAUGE_ANNOTATION)) {
+        for (AnnotationInstance annotation : index.getAnnotations(MetricDotNames.GAUGE_ANNOTATION)) {
             AnnotationTarget target = annotation.target();
             MethodInfo method = target.asMethod();
             ClassInfo classInfo = method.declaringClass();
@@ -149,7 +145,7 @@ public class GaugeAnnotationHandler {
 
     static private void verifyGaugeScope(AnnotationTarget target, ClassInfo classInfo) {
         log.debugf("Gauge: %s, %s, %s", target, target.kind(), classInfo);
-        if (!MicroprofileMetricsProcessor.isSingleInstance(classInfo)) {
+        if (!MetricDotNames.isSingleInstance(classInfo)) {
             log.errorf("Bean %s declares a org.eclipse.microprofile.metrics.annotation.Gauge " +
                     "but is of a scope that may create multiple instances of a bean. " +
                     "@Gauge annotations establish a callback to a single instance. Only use " +
