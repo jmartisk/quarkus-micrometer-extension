@@ -68,6 +68,11 @@
       <artifactId>quarkus-hibernate-orm-deployment</artifactId>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jaeger-deployment</artifactId>
+      <optional>true</optional>
+    </dependency>
 
     <!-- Registry providers (optional) -->
 

@@ -28,6 +28,13 @@
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-registry-jmx</artifactId>
     </dependency>
+
+    <!-- FIXME I need this but shouldn't -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jaeger</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>
